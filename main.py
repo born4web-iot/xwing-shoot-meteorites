@@ -3,7 +3,6 @@ def on_on_destroyed(sprite):
     info.change_score_by(1)
     if info.score() % 5 == 0:
         GAME_SPEED += -100
-        print("Rychlost: " + str(GAME_SPEED))
 sprites.on_destroyed(SpriteKind.enemy, on_on_destroyed)
 
 def on_on_overlap(sprite2, otherSprite):
@@ -13,7 +12,6 @@ def on_on_overlap(sprite2, otherSprite):
 sprites.on_overlap(SpriteKind.player, SpriteKind.enemy, on_on_overlap)
 
 meteorit: Sprite = None
-GAME_SPEED = 0
 tiles.set_current_tilemap(tilemap("""
     level2
 """))
@@ -68,5 +66,4 @@ def on_update_interval():
     meteorit.set_position(149, randint(5, 110))
     meteorit.set_velocity(randint(-30, -100), 0)
     meteorit.set_flag(SpriteFlag.DESTROY_ON_WALL, True)
-    print(GAME_SPEED)
 game.on_update_interval(GAME_SPEED, on_update_interval)
