@@ -6,6 +6,26 @@ function changeGameLevel () {
         }
     }
 }
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    projectile = sprites.createProjectileFromSprite(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        2 2 2 2 2 2 2 . . . . . . . . . 
+        2 2 2 2 2 2 2 2 . . . . . . . . 
+        2 2 2 2 2 2 2 2 2 . . . . . . . 
+        2 2 2 2 2 2 2 2 . . . . . . . . 
+        2 2 2 2 2 2 2 . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, xwing, 200, 0)
+})
 sprites.onDestroyed(SpriteKind.Enemy, function (sprite) {
     info.changeScoreBy(1)
     changeGameLevel()
@@ -33,6 +53,9 @@ function createMeteorit () {
     meteorit.setVelocity(randint(-30, -100), 0)
     meteorit.setFlag(SpriteFlag.DestroyOnWall, true)
 }
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
+    sprites.destroy(otherSprite)
+})
 function getNewMeteoritesNumber () {
     meteorite_multiply = randint(0, 1) * level
     if (meteorite_multiply == 0) {
@@ -46,6 +69,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
     info.changeLifeBy(-1)
 })
 let meteorit: Sprite = null
+let projectile: Sprite = null
 let meteorite_multiply = 0
 let LEVEL_SCORE_STEP = 0
 let level = 0
